@@ -5,7 +5,7 @@ import lotto.io.input.dto.BonusNumberRequest;
 import lotto.io.input.dto.PurchaseLottoRequest;
 import lotto.io.input.dto.WinningNumbersRequest;
 
-class ConsoleLottoGameInputAdapter implements LottoGameInputPort {
+public class ConsoleLottoGameInputAdapter implements LottoGameInputPort {
 
     @Override
     public PurchaseLottoRequest purchaseMoneyInput() {
