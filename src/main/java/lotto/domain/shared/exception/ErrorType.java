@@ -1,4 +1,4 @@
-package lotto.domain.lottoGame;
+package lotto.domain.shared.exception;
 
 public enum ErrorType {
 
