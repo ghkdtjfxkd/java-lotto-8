@@ -2,10 +2,12 @@ package lotto.controller;
 
 import java.util.List;
 import lotto.application.dto.PurchasedLottoDto;
+import lotto.application.service.LottoMatchService;
 import lotto.application.service.LottoPurchaseService;
 import lotto.common.BusinessException;
 import lotto.io.input.LottoGameInputPort;
 import lotto.io.input.dto.PurchaseLottoRequest;
+import lotto.io.input.dto.WinningNumbersRequest;
 import lotto.io.output.LottoGameOutputPort;
 import lotto.io.output.dto.PurchasedLottoGamesResponse;
 
@@ -15,34 +17,39 @@ public class LottoController {
     private final LottoGameOutputPort outputPort;
 
     private final LottoPurchaseService purchaseService;
+    private final LottoMatchService matchService;
 
     public LottoController(LottoGameInputPort inputPort,
                            LottoGameOutputPort outputPort,
-                           LottoPurchaseService purchaseService) {
+                           LottoPurchaseService purchaseService,
+                           LottoMatchService matchService) {
         this.inputPort = inputPort;
         this.outputPort = outputPort;
         this.purchaseService = purchaseService;
+        this.matchService = matchService;
     }
 
     public void run() {
         execute(this::purchaseLotto);
         execute(this::checkingLottoGames);
+        execute(this::registerWinningNumbers);
     }
 
     private void execute(ExecutableTask task) {
-        try {
-            task.execute();
-            outputPort.printTaskDivider();
-        } catch (BusinessException e) {
-            outputPort.printError(e);
-            execute(task);
+        while (true) {
+            try {
+                task.execute();
+                outputPort.printTaskDivider();
+                return;
+            } catch (BusinessException e) {
+                outputPort.printError(e);
+            }
         }
     }
 
     private void purchaseLotto() {
-        PurchaseLottoRequest purchaseLottoRequest = inputPort.purchaseMoneyInput();
-
-        purchaseService.purchaseLottoTicket(purchaseLottoRequest.rawMoneyInput());
+        PurchaseLottoRequest request = inputPort.purchaseMoneyInput();
+        purchaseService.purchaseLottoTicket(request.rawMoneyInput());
     }
 
     private void checkingLottoGames() {
@@ -50,5 +57,10 @@ public class LottoController {
         PurchasedLottoGamesResponse purchasedResponse = PurchasedLottoGamesResponse.from(lottoGames);
 
         outputPort.print(purchasedResponse);
+    }
+
+    private void registerWinningNumbers() {
+        WinningNumbersRequest request = inputPort.winningNumbersInput();
+        matchService.registerWinningNumbers(request.rawWinningNumbersInput());
     }
 }

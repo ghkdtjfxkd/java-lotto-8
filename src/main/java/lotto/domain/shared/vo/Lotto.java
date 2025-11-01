@@ -24,6 +24,7 @@ public class Lotto {
     private void validate(List<Integer> numbers) {
         requireValidNumberCount(numbers);
         requireUnique(numbers);
+        requireValidNumbers(numbers);
     }
 
     private void requireValidNumberCount(List<Integer> numbers) {
@@ -40,6 +41,20 @@ public class Lotto {
 
     private boolean hasDuplicates(List<Integer> numbers) {
         return numbers.size() != numbers.stream().distinct().count();
+    }
+
+    private void requireValidNumbers(List<Integer> numbers) {
+        numbers.forEach(this::requireInLottoRange);
+    }
+
+    private void requireInLottoRange(int number) {
+        if(!inLottoRange(number)) {
+            throw new InvalidLottoNumbersException(ErrorType.OUT_OF_LOTTO_NUMBER_RANGE);
+        }
+    }
+
+    private boolean inLottoRange(int number) {
+        return LottoRules.MIN_NUMBER.value() <= number && number <=LottoRules.MAX_NUMBER.value();
     }
 
     public List<Integer> numbers() {

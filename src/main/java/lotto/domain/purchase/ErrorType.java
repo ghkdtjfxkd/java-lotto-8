@@ -11,6 +11,7 @@ enum ErrorType {
     NOT_POSITIVE("구매 금액은 양수(0보다 큰 값)만 입력해야 합니다."),
 
     NOT_DIVISIBLE_BY_UNIT("구매 금액은 1000원 단위로 나누어 떨어져야 합니다.");
+
     private static final String ERROR_PREFIX = "[ERROR]: ";
 
     private final String description;

@@ -1,5 +1,7 @@
 package lotto;
 
+import lotto.application.service.LottoMatchService;
+import lotto.application.service.LottoMatchServiceImpl;
 import lotto.application.service.LottoPurchaseService;
 import lotto.application.service.LottoPurchaseServiceImpl;
 import lotto.controller.LottoController;
@@ -24,6 +26,8 @@ public class Application {
         LottoTicketRepository lottoTicketRepository = new InMemoryLottoTicketRepository();
         PickLottoNumbersStrategy pickLottoNumbersStrategy = new QuickPicksStrategy();
 
+        LottoMatchService lottoMatchService = new LottoMatchServiceImpl();
+
         LottoPurchaseService purchaseService = new LottoPurchaseServiceImpl(
                 purchaseRepository,
                 lottoTicketRepository,
@@ -33,7 +37,8 @@ public class Application {
         LottoController controller = new LottoController(
                 inputPort,
                 outputPort,
-                purchaseService
+                purchaseService,
+                lottoMatchService
         );
 
         controller.run();
