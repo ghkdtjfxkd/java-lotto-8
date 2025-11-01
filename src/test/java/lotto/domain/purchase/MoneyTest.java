@@ -18,6 +18,7 @@ class MoneyTest {
             "provideNonPositiveMoneyInputs",
             "provideOutOfIntegerRangeMoneyInputs"})
     void wrong_purchase_money_exception_test(String input) {
+        assertThrows(IllegalArgumentException.class, () -> Money.from(input));
         assertThrows(InvalidPurchaseException.class, () -> Money.from(input));
     }
 
@@ -26,6 +27,7 @@ class MoneyTest {
     @MethodSource("provideOutOfIntegerRangeMoneyInputs")
     void out_of_range_purchase_money_exception_message_test(String input, String description) {
         assertThatThrownBy(() -> Money.from(input))
+                .isInstanceOf(IllegalArgumentException.class)
                 .isInstanceOf(InvalidPurchaseException.class)
                 .hasMessage(ErrorType.OUT_OF_INTEGER.description());
     }
@@ -35,6 +37,7 @@ class MoneyTest {
     @MethodSource("provideNonPositiveMoneyInputs")
     void non_positive_money_exception_message_test(String input) {
         assertThatThrownBy(() -> Money.from(input))
+                .isInstanceOf(IllegalArgumentException.class)
                 .isInstanceOf(InvalidPurchaseException.class)
                 .hasMessage(ErrorType.NOT_POSITIVE.description());
     }
