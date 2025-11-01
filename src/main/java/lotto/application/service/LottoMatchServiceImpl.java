@@ -1,21 +1,24 @@
 package lotto.application.service;
 
-import lotto.domain.lottoGame.LottoTicketRepository;
+import lotto.domain.match.WinningCondition;
 import lotto.domain.match.WinningConditionRepository;
 
 public class LottoMatchServiceImpl implements LottoMatchService {
 
-    private final LottoTicketRepository lottoTicketRepository;
     private final WinningConditionRepository winningConditionRepository;
 
-    public LottoMatchServiceImpl(LottoTicketRepository lottoTicketRepository,
-                                 WinningConditionRepository winningConditionRepository) {
-        this.lottoTicketRepository = lottoTicketRepository;
+    public LottoMatchServiceImpl(WinningConditionRepository winningConditionRepository) {
         this.winningConditionRepository = winningConditionRepository;
     }
 
     @Override
-    public void registerWinningNumbers(String inputWinningNumber) {
+    public void registerWinningNumbers(String winningNumbersInput) {
+        winningConditionRepository.save(WinningCondition.from(winningNumbersInput));
+    }
 
+    @Override
+    public void registerBonusNumber(String bonusNumberInput) {
+        WinningCondition winningCondition = winningConditionRepository.getWinningCondition();
+        winningConditionRepository.update(winningCondition.withBonus(bonusNumberInput));
     }
 }

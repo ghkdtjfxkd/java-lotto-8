@@ -6,6 +6,7 @@ import lotto.application.service.LottoMatchService;
 import lotto.application.service.LottoPurchaseService;
 import lotto.common.BusinessException;
 import lotto.io.input.LottoGameInputPort;
+import lotto.io.input.dto.BonusNumberRequest;
 import lotto.io.input.dto.PurchaseLottoRequest;
 import lotto.io.input.dto.WinningNumbersRequest;
 import lotto.io.output.LottoGameOutputPort;
@@ -33,6 +34,7 @@ public class LottoController {
         execute(this::purchaseLotto);
         execute(this::checkingLottoGames);
         execute(this::registerWinningNumbers);
+        execute(this::registerBonusNumber);
     }
 
     private void execute(ExecutableTask task) {
@@ -42,6 +44,7 @@ public class LottoController {
                 outputPort.printTaskDivider();
                 return;
             } catch (BusinessException e) {
+                outputPort.printTaskDivider();
                 outputPort.printError(e);
             }
         }
@@ -62,5 +65,10 @@ public class LottoController {
     private void registerWinningNumbers() {
         WinningNumbersRequest request = inputPort.winningNumbersInput();
         matchService.registerWinningNumbers(request.rawWinningNumbersInput());
+    }
+
+    private void registerBonusNumber() {
+        BonusNumberRequest request = inputPort.bonusNumberInput();
+        matchService.registerBonusNumber(request.rawBonusNumberInput());
     }
 }
