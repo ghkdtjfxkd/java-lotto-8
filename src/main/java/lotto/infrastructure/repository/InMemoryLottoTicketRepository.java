@@ -4,6 +4,7 @@ import java.util.List;
 import lotto.application.dto.PurchasedLottoDto;
 import lotto.domain.lottoGame.LottoTicket;
 import lotto.domain.lottoGame.LottoTicketRepository;
+import lotto.domain.shared.vo.Lotto;
 
 public class InMemoryLottoTicketRepository implements LottoTicketRepository {
 
@@ -15,11 +16,16 @@ public class InMemoryLottoTicketRepository implements LottoTicketRepository {
         this.lottoTicket = lottoTicket;
     }
 
-    // Query
+    // Query (view로 향함)
     @Override
     public List<PurchasedLottoDto> purchasedLottoGames() {
         return lottoTicket.purchasedLottoGames().stream()
                 .map(lotto -> new PurchasedLottoDto(lotto.numbers()))
                 .toList();
+    }
+
+    @Override
+    public List<Lotto> allLottoGames() {
+        return lottoTicket.purchasedLottoGames();
     }
 }

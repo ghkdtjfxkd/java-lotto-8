@@ -1,5 +1,4 @@
-package lotto.domain.match;
-
+package lotto.domain.answer;
 
 import lotto.domain.shared.constant.LottoRules;
 
@@ -54,7 +53,7 @@ class LottoNumberToken {
         return LottoRules.MIN_NUMBER.value() <= number && number <= LottoRules.MAX_NUMBER.value();
     }
 
-    int value() {
+    int number() {
         return number;
     }
 }

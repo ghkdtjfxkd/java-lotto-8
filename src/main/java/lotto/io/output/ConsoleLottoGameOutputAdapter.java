@@ -2,9 +2,11 @@ package lotto.io.output;
 
 import java.util.List;
 import lotto.common.BusinessException;
+import lotto.io.output.dto.ProfitRateResponse;
 import lotto.io.output.dto.PurchasedLottoGamesResponse;
+import lotto.io.output.dto.WinningStatisticsResponse;
 
-public class ConsoleLottoGameOutputAdapter implements LottoGameOutputPort{
+public class ConsoleLottoGameOutputAdapter implements LottoGameOutputPort {
 
     private static final String TASK_DIVIDER = System.lineSeparator();
 
@@ -12,6 +14,16 @@ public class ConsoleLottoGameOutputAdapter implements LottoGameOutputPort{
     public void print(PurchasedLottoGamesResponse purchasedLotto) {
         System.out.println(purchasedLotto.quantity() + "개를 구매했습니다.");
         printGames(purchasedLotto);
+    }
+
+    @Override
+    public void print(WinningStatisticsResponse response) {
+        System.out.print(WinningStatisticsOutputFormatter.format(response));
+    }
+
+    @Override
+    public void print(ProfitRateResponse response) {
+        System.out.printf("총 수익률은 %,.1f%%입니다." + TASK_DIVIDER, response.profitRate());
     }
 
     @Override

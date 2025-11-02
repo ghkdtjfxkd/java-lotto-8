@@ -45,14 +45,4 @@ public class Lotto {
     public List<Integer> numbers() {
         return numbers;
     }
-
-    public int matchedCount(Collection<Integer> winningSet) {
-        return (int) this.numbers.stream()
-                .filter(winningSet::contains)
-                .count();
-    }
-
-    public boolean isContained(int number) {
-        return this.numbers.contains(number);
-    }
 }

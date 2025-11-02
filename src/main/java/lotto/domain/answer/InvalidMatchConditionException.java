@@ -1,4 +1,4 @@
-package lotto.domain.match;
+package lotto.domain.answer;
 
 import lotto.common.BusinessException;
 

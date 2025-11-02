@@ -1,17 +1,19 @@
 package lotto;
 
-import lotto.application.service.LottoMatchService;
-import lotto.application.service.LottoMatchServiceImpl;
+import lotto.application.service.LottoAnswerService;
+import lotto.application.service.LottoAnswerServiceImpl;
 import lotto.application.service.LottoPurchaseService;
 import lotto.application.service.LottoPurchaseServiceImpl;
+import lotto.application.service.LottoResultService;
+import lotto.application.service.LottoResultServiceImpl;
 import lotto.controller.LottoController;
 import lotto.domain.lottoGame.LottoTicketRepository;
 import lotto.domain.lottoGame.PickLottoNumbersStrategy;
-import lotto.domain.match.WinningConditionRepository;
+import lotto.domain.answer.LottoAnswerRepository;
 import lotto.domain.purchase.PurchaseRepository;
 import lotto.infrastructure.repository.InMemoryLottoTicketRepository;
 import lotto.infrastructure.repository.InMemoryPurchaseRepository;
-import lotto.infrastructure.repository.InMemoryWinningConditionRepository;
+import lotto.infrastructure.repository.InMemoryLottoAnswerRepository;
 import lotto.infrastructure.strategy.QuickPicksStrategy;
 import lotto.io.input.ConsoleLottoGameInputAdapter;
 import lotto.io.input.LottoGameInputPort;
@@ -26,7 +28,7 @@ public class Application {
 
         PurchaseRepository purchaseRepository = new InMemoryPurchaseRepository();
         LottoTicketRepository lottoTicketRepository = new InMemoryLottoTicketRepository();
-        WinningConditionRepository winningConditionRepository = new InMemoryWinningConditionRepository();
+        LottoAnswerRepository lottoAnswerRepository = new InMemoryLottoAnswerRepository();
 
         PickLottoNumbersStrategy pickLottoNumbersStrategy = new QuickPicksStrategy();
 
@@ -38,15 +40,22 @@ public class Application {
                 pickLottoNumbersStrategy
         );
 
-        LottoMatchService lottoMatchService = new LottoMatchServiceImpl(
-                winningConditionRepository
+        LottoAnswerService lottoAnswerService = new LottoAnswerServiceImpl(
+                lottoAnswerRepository
+        );
+
+        LottoResultService lottoResultService = new LottoResultServiceImpl(
+                purchaseRepository,
+                lottoTicketRepository,
+                lottoAnswerRepository
         );
 
         LottoController controller = new LottoController(
                 inputPort,
                 outputPort,
                 purchaseService,
-                lottoMatchService
+                lottoAnswerService,
+                lottoResultService
         );
 
         controller.run();
