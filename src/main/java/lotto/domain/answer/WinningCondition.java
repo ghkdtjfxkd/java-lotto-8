@@ -30,10 +30,9 @@ public class WinningCondition {
         return new WinningCondition(winning);
     }
 
-
     private static void requireNonBlank(String winningNumbersInput) {
         if (winningNumbersInput == null || winningNumbersInput.isBlank()) {
-            throw new InvalidMatchConditionException(ErrorType.BLANK);
+            throw new InvalidWinningConditionException(ErrorType.BLANK);
         }
     }
 
@@ -56,7 +55,7 @@ public class WinningCondition {
 
     private static void requireDigit(char token) {
         if (!Character.isDigit(token)) {
-            throw new InvalidMatchConditionException(ErrorType.NOT_DIGITS_OR_DELIMITER);
+            throw new InvalidWinningConditionException(ErrorType.NOT_DIGITS_OR_DELIMITER);
         }
     }
 
@@ -69,7 +68,7 @@ public class WinningCondition {
     private void requireUnique(String bonusNumbersInput) {
         LottoNumberToken bonus = LottoNumberToken.from(bonusNumbersInput);
         if (winningLotto.numbers().contains(bonus.number())) {
-            throw new InvalidMatchConditionException(ErrorType.DUPLICATES_EXIST);
+            throw new InvalidWinningConditionException(ErrorType.DUPLICATES_EXIST);
         }
     }
 

@@ -19,7 +19,7 @@ class LottoNumberToken {
 
     private static void requireNoWhitespace(String numberInput) {
         if (numberInput.isBlank()) {
-            throw new InvalidMatchConditionException(ErrorType.WHITE_SPACES_EXIST);
+            throw new InvalidWinningConditionException(ErrorType.WHITE_SPACES_EXIST);
         }
     }
 
@@ -31,7 +31,7 @@ class LottoNumberToken {
 
     private static void requireDigit(char token) {
         if (!Character.isDigit(token)) {
-            throw new InvalidMatchConditionException(ErrorType.NOT_DIGITS);
+            throw new InvalidWinningConditionException(ErrorType.NOT_DIGITS);
         }
     }
 
@@ -39,13 +39,13 @@ class LottoNumberToken {
         try {
             return Integer.parseInt(numbersInput);
         } catch (NumberFormatException e) {
-            throw new InvalidMatchConditionException(ErrorType.OUT_OF_INTEGER);
+            throw new InvalidWinningConditionException(ErrorType.OUT_OF_INTEGER);
         }
     }
 
     private void requireInLottoRange(int number) {
         if (!inLottoRange(number)) {
-            throw new InvalidMatchConditionException(ErrorType.OUT_OF_LOTTO_NUMBER_RANGE);
+            throw new InvalidWinningConditionException(ErrorType.OUT_OF_LOTTO_NUMBER_RANGE);
         }
     }
 

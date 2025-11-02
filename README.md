@@ -67,7 +67,9 @@
 
 ### ✅ 테스트
 - [x] lotto game 테스트 작성
-- [ ] answer 테스트 작성
+- [x] answer 테스트 작성
+  - [x] WinningCondition
+  - [ ] LottoNumberToken
 - [ ] result 테스트 작성
 - [ ] 통합 테스트 작성
 
@@ -82,6 +84,7 @@
 - [ ] 책임 조정
 - [ ] 겹치는 예외 처리 로직 유틸?로 묶기?
   - 식별 시 추가 할 것
+  - [ ] 빈 문자열(`WinningCondition`,)
   - [ ] 로또 숫자 범위(`Lotto`, `LottoNumberToken`)
 ---
 
