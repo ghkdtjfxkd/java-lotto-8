@@ -1,6 +1,8 @@
 package lotto.controller;
 
+import lotto.common.BusinessException;
+
 @FunctionalInterface
 interface ExecutableTask {
-    void execute();
+    void execute() throws BusinessException;
 }
