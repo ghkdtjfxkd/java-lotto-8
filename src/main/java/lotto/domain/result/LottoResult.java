@@ -17,7 +17,6 @@ public class LottoResult {
         return new LottoResult(ScoreBoard.from(lottoGames, lottoAnswer));
     }
 
-
     public List<MatchedScore> scores() {
         return scoreBoard.matchedScores().entrySet().stream()
                 .map(entry -> new MatchedScore(entry.getKey(), entry.getValue()))

@@ -10,6 +10,9 @@ import lotto.domain.shared.vo.LottoAnswer;
 
 class ScoreBoard {
 
+    private static final int DEFAULT_VALUE = 0;
+    private static final int ADDED = 1;
+
     private final Map<LottoRank, Integer> matchedScores;
 
     private ScoreBoard(Map<LottoRank, Integer> matchedScores) {
@@ -20,7 +23,7 @@ class ScoreBoard {
         Map<LottoRank, Integer> matchedScores = new EnumMap<>(LottoRank.class);
 
         unclassified.forEach(lotto ->
-                matchedScores.merge(rank(lotto, answer), 1, Integer::sum));
+                matchedScores.merge(rank(lotto, answer), ADDED, Integer::sum));
 
         return new ScoreBoard(matchedScores);
     }
@@ -41,6 +44,6 @@ class ScoreBoard {
     }
 
     private void putScore(LottoRank winningRank, Map<LottoRank, Integer> completeScores) {
-        completeScores.put(winningRank, matchedScores.getOrDefault(winningRank, 0));
+        completeScores.put(winningRank, matchedScores.getOrDefault(winningRank, DEFAULT_VALUE));
     }
 }

@@ -22,9 +22,10 @@ public class Profit {
                 .sum();
     }
 
+
     public double rateOf(int purchaseAmount) {
-        if (purchaseAmount == 0) {
-            return 0.0;
+        if(purchaseAmount == 0) {
+            throw new IllegalArgumentException("[ERROR]: 0으로는 나눌 수 없습니다.");
         }
 
         return (double) prizeAmount / (double) purchaseAmount * 100;
