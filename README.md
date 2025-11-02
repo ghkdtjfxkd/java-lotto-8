@@ -70,8 +70,7 @@
 - [x] answer 테스트 작성
   - [x] WinningCondition
   - [x] LottoNumberToken
-- [ ] result 테스트 작성
-- [ ] 통합 테스트 작성
+- [x] result 테스트 작성
 
 ---
 
