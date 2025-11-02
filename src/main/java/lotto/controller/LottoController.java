@@ -2,8 +2,11 @@ package lotto.controller;
 
 import java.util.List;
 import lotto.application.dto.PurchasedLottoDto;
+import lotto.application.dto.WinningStatisticDto;
 import lotto.application.service.LottoAnswerService;
 import lotto.application.service.LottoPurchaseService;
+import lotto.application.service.LottoResultService;
+import lotto.application.service.LottoResultServiceImpl;
 import lotto.common.BusinessException;
 import lotto.io.input.LottoGameInputPort;
 import lotto.io.input.dto.BonusNumberRequest;
@@ -11,6 +14,7 @@ import lotto.io.input.dto.PurchaseLottoRequest;
 import lotto.io.input.dto.WinningNumbersRequest;
 import lotto.io.output.LottoGameOutputPort;
 import lotto.io.output.dto.PurchasedLottoGamesResponse;
+import lotto.io.output.dto.WinningStatisticsResponse;
 
 public class LottoController {
 
@@ -18,16 +22,19 @@ public class LottoController {
     private final LottoGameOutputPort outputPort;
 
     private final LottoPurchaseService purchaseService;
-    private final LottoAnswerService matchService;
+    private final LottoAnswerService answerService;
+    private final LottoResultService resultService;
 
     public LottoController(LottoGameInputPort inputPort,
                            LottoGameOutputPort outputPort,
                            LottoPurchaseService purchaseService,
-                           LottoAnswerService matchService) {
+                           LottoAnswerService answerService,
+                           LottoResultService resultService) {
         this.inputPort = inputPort;
         this.outputPort = outputPort;
         this.purchaseService = purchaseService;
-        this.matchService = matchService;
+        this.answerService = answerService;
+        this.resultService = resultService;
     }
 
     public void run() {
@@ -35,6 +42,7 @@ public class LottoController {
         execute(this::checkingLottoGames);
         execute(this::registerWinningNumbers);
         execute(this::registerBonusNumber);
+        execute(this::drawLottoGames);
     }
 
     private void execute(ExecutableTask task) {
@@ -64,11 +72,18 @@ public class LottoController {
 
     private void registerWinningNumbers() {
         WinningNumbersRequest request = inputPort.winningNumbersInput();
-        matchService.registerWinningNumbers(request.rawWinningNumbersInput());
+        answerService.registerWinningNumbers(request.rawWinningNumbersInput());
     }
 
     private void registerBonusNumber() {
         BonusNumberRequest request = inputPort.bonusNumberInput();
-        matchService.registerBonusNumber(request.rawBonusNumberInput());
+        answerService.registerBonusNumber(request.rawBonusNumberInput());
+    }
+
+    private void drawLottoGames() {
+        List<WinningStatisticDto> winningStatistics = resultService.matchedResults();
+        WinningStatisticsResponse winningStatisticsResponse = WinningStatisticsResponse.from(winningStatistics);
+
+        outputPort.print(winningStatisticsResponse);
     }
 }

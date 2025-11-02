@@ -4,6 +4,8 @@ import lotto.application.service.LottoAnswerService;
 import lotto.application.service.LottoAnswerServiceImpl;
 import lotto.application.service.LottoPurchaseService;
 import lotto.application.service.LottoPurchaseServiceImpl;
+import lotto.application.service.LottoResultService;
+import lotto.application.service.LottoResultServiceImpl;
 import lotto.controller.LottoController;
 import lotto.domain.lottoGame.LottoTicketRepository;
 import lotto.domain.lottoGame.PickLottoNumbersStrategy;
@@ -42,11 +44,17 @@ public class Application {
                 lottoAnswerRepository
         );
 
+        LottoResultService lottoResultService = new LottoResultServiceImpl(
+                lottoTicketRepository,
+                lottoAnswerRepository
+        );
+
         LottoController controller = new LottoController(
                 inputPort,
                 outputPort,
                 purchaseService,
-                lottoAnswerService
+                lottoAnswerService,
+                lottoResultService
         );
 
         controller.run();

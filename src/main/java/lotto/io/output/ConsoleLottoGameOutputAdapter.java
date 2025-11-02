@@ -3,6 +3,7 @@ package lotto.io.output;
 import java.util.List;
 import lotto.common.BusinessException;
 import lotto.io.output.dto.PurchasedLottoGamesResponse;
+import lotto.io.output.dto.WinningStatisticsResponse;
 
 public class ConsoleLottoGameOutputAdapter implements LottoGameOutputPort{
 
@@ -12,6 +13,11 @@ public class ConsoleLottoGameOutputAdapter implements LottoGameOutputPort{
     public void print(PurchasedLottoGamesResponse purchasedLotto) {
         System.out.println(purchasedLotto.quantity() + "개를 구매했습니다.");
         printGames(purchasedLotto);
+    }
+
+    @Override
+    public void print(WinningStatisticsResponse response) {
+        System.out.println(response.winningStatistics());
     }
 
     @Override
