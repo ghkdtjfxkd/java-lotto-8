@@ -69,7 +69,7 @@
 - [x] lotto game 테스트 작성
 - [x] answer 테스트 작성
   - [x] WinningCondition
-  - [ ] LottoNumberToken
+  - [x] LottoNumberToken
 - [ ] result 테스트 작성
 - [ ] 통합 테스트 작성
 

@@ -22,4 +22,18 @@ public final class TestFixtures {
                 Arguments.of("-,.;'ㅏ", "숫자가 아닌 문자로만 이루어진 문자열")
         );
     }
+
+    public static Stream<Arguments> provideOutOfIntegerRangeInputs() {
+        return Stream.of(
+                Arguments.of("2147483648", "2147483647(Integer.MAX) + 1"),
+                Arguments.of("-2147483649", "-2147483648(Integer.MIN) - 1")
+        );
+    }
+
+    public static Stream<String> provideOutOfLottoRangeInputs() {
+        return Stream.of(
+                "0",
+                "46"
+        );
+    }
 }
