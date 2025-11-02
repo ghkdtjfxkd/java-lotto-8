@@ -1,6 +1,7 @@
 package lotto.controller;
 
 import java.util.List;
+import lotto.application.dto.ProfitRateDto;
 import lotto.application.dto.PurchasedLottoDto;
 import lotto.application.dto.WinningStatisticDto;
 import lotto.application.service.LottoAnswerService;
@@ -13,6 +14,7 @@ import lotto.io.input.dto.BonusNumberRequest;
 import lotto.io.input.dto.PurchaseLottoRequest;
 import lotto.io.input.dto.WinningNumbersRequest;
 import lotto.io.output.LottoGameOutputPort;
+import lotto.io.output.dto.ProfitRateResponse;
 import lotto.io.output.dto.PurchasedLottoGamesResponse;
 import lotto.io.output.dto.WinningStatisticsResponse;
 
@@ -44,7 +46,7 @@ public class LottoController {
         execute(this::registerBonusNumber);
 
         drawLottoGames();
-        System.out.println(String.format("총 수익률은 %.1f%%입니다.",resultService.calculateProfitRate()));
+        calculateProfitRate();
     }
 
     private void execute(ExecutableTask task) {
@@ -87,5 +89,11 @@ public class LottoController {
         WinningStatisticsResponse winningStatisticsResponse = WinningStatisticsResponse.from(winningStatistics);
 
         outputPort.print(winningStatisticsResponse);
+    }
+
+    private void calculateProfitRate() {
+        ProfitRateDto profitRateDto = resultService.calculateProfitRate();
+        ProfitRateResponse profitRateResponse = ProfitRateResponse.of(profitRateDto);
+        outputPort.print(profitRateResponse);
     }
 }

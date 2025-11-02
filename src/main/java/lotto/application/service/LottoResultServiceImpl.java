@@ -1,6 +1,7 @@
 package lotto.application.service;
 
 import java.util.List;
+import lotto.application.dto.ProfitRateDto;
 import lotto.application.dto.WinningStatisticDto;
 import lotto.domain.lottoGame.LottoTicketRepository;
 import lotto.domain.answer.LottoAnswerRepository;
@@ -31,14 +32,19 @@ public class LottoResultServiceImpl implements LottoResultService {
                 .toList();
     }
 
+    public ProfitRateDto calculateProfitRate() {
+        int purchaseAmount = purchaseRepository.amount();
+
+        LottoResult result = lottoResult();
+        Profit profit = Profit.from(result.scores());
+
+        return new ProfitRateDto(profit.rateOf(purchaseAmount));
+    }
+
     private LottoResult lottoResult() {
         List<Lotto> lottoGames = lottoTicketRepository.allLottoGames();
         LottoAnswer lottoAnswer = lottoAnswerRepository.getLottoAnswer();
 
         return LottoResult.from(lottoGames, lottoAnswer);
-    }
-
-    public double calculateProfitRate() {
-        return Profit.from(lottoResult().scores()).rate(purchaseRepository.amount());
     }
 }

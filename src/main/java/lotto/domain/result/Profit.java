@@ -22,7 +22,7 @@ public class Profit {
                 .sum();
     }
 
-    public double rate(int purchaseAmount) {
+    public double rateOf(int purchaseAmount) {
         if (purchaseAmount == 0) {
             return 0.0;
         }
