@@ -1,9 +1,10 @@
-package lotto.domain.match;
+package lotto.domain.answer;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 import lotto.domain.shared.vo.Lotto;
+import lotto.domain.shared.vo.LottoAnswer;
 
 public class WinningCondition {
 
@@ -72,11 +73,7 @@ public class WinningCondition {
         }
     }
 
-    public List<Integer> winningNumbers() {
-        return winningLotto.numbers();
-    }
-
-    public int bonusNumber() {
-        return bonus.number();
+    public LottoAnswer createAnswer() {
+        return LottoAnswer.of(winningLotto, bonus.number());
     }
 }

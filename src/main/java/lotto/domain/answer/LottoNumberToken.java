@@ -1,5 +1,4 @@
-package lotto.domain.match;
-
+package lotto.domain.answer;
 
 import lotto.domain.shared.constant.LottoRules;
 

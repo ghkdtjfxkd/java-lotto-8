@@ -1,9 +1,10 @@
 package lotto.infrastructure.repository;
 
-import lotto.domain.match.WinningCondition;
-import lotto.domain.match.WinningConditionRepository;
+import lotto.domain.answer.WinningCondition;
+import lotto.domain.answer.LottoAnswerRepository;
+import lotto.domain.shared.vo.LottoAnswer;
 
-public class InMemoryWinningConditionRepository implements WinningConditionRepository {
+public class InMemoryLottoAnswerRepository implements LottoAnswerRepository {
 
     private WinningCondition winningCondition;
 
@@ -20,5 +21,10 @@ public class InMemoryWinningConditionRepository implements WinningConditionRepos
     @Override
     public WinningCondition getWinningCondition() {
         return winningCondition;
+    }
+
+    @Override
+    public LottoAnswer getLottoAnswer() {
+        return winningCondition.createAnswer();
     }
 }

@@ -2,7 +2,7 @@ package lotto.controller;
 
 import java.util.List;
 import lotto.application.dto.PurchasedLottoDto;
-import lotto.application.service.LottoMatchService;
+import lotto.application.service.LottoAnswerService;
 import lotto.application.service.LottoPurchaseService;
 import lotto.common.BusinessException;
 import lotto.io.input.LottoGameInputPort;
@@ -18,12 +18,12 @@ public class LottoController {
     private final LottoGameOutputPort outputPort;
 
     private final LottoPurchaseService purchaseService;
-    private final LottoMatchService matchService;
+    private final LottoAnswerService matchService;
 
     public LottoController(LottoGameInputPort inputPort,
                            LottoGameOutputPort outputPort,
                            LottoPurchaseService purchaseService,
-                           LottoMatchService matchService) {
+                           LottoAnswerService matchService) {
         this.inputPort = inputPort;
         this.outputPort = outputPort;
         this.purchaseService = purchaseService;
