@@ -17,7 +17,7 @@ public class ConsoleLottoGameOutputAdapter implements LottoGameOutputPort{
 
     @Override
     public void print(WinningStatisticsResponse response) {
-        System.out.println(WinningStatisticsOutputFormatter.format(response));
+        System.out.print(WinningStatisticsOutputFormatter.format(response));
     }
 
     @Override

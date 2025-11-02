@@ -44,7 +44,7 @@ public class LottoController {
         execute(this::registerBonusNumber);
 
         drawLottoGames();
-
+        System.out.println(String.format("총 수익률은 %.1f%%입니다.",resultService.calculateProfitRate()));
     }
 
     private void execute(ExecutableTask task) {

@@ -45,6 +45,7 @@ public class Application {
         );
 
         LottoResultService lottoResultService = new LottoResultServiceImpl(
+                purchaseRepository,
                 lottoTicketRepository,
                 lottoAnswerRepository
         );

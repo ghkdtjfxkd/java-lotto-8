@@ -1,7 +1,5 @@
 package lotto.infrastructure.repository;
 
-import lotto.application.dto.PurchaseAmountDto;
-import lotto.application.dto.PurchaseQuantityDto;
 import lotto.domain.purchase.Purchase;
 import lotto.domain.purchase.PurchaseRepository;
 
@@ -17,12 +15,7 @@ public class InMemoryPurchaseRepository implements PurchaseRepository {
 
     // Query
     @Override
-    public PurchaseAmountDto amount() {
-        return new PurchaseAmountDto(purchase.amount());
-    }
-
-    @Override
-    public PurchaseQuantityDto quantity() {
-        return new PurchaseQuantityDto(purchase.quantity());
+    public int amount() {
+        return purchase.amount();
     }
 }
