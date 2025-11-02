@@ -39,12 +39,19 @@ public class LottoController {
     }
 
     public void run() {
+        setupPhase();
+        resultPhase();
+    }
+
+    private void setupPhase() {
         execute(this::purchaseLotto);
-        execute(this::checkingLottoGames);
+        execute(this::displayPurchasedTickets);
         execute(this::registerWinningNumbers);
         execute(this::registerBonusNumber);
+    }
 
-        drawLottoGames();
+    private void resultPhase() {
+        displayWinningStatistics();
         calculateProfitRate();
     }
 
@@ -66,7 +73,7 @@ public class LottoController {
         purchaseService.purchaseLottoTicket(request.rawMoneyInput());
     }
 
-    private void checkingLottoGames() {
+    private void displayPurchasedTickets() {
         List<PurchasedLottoDto> lottoGames = purchaseService.LottoGames();
         PurchasedLottoGamesResponse purchasedResponse = PurchasedLottoGamesResponse.from(lottoGames);
 
@@ -83,7 +90,7 @@ public class LottoController {
         answerService.registerBonusNumber(request.rawBonusNumberInput());
     }
 
-    private void drawLottoGames() {
+    private void displayWinningStatistics() {
         List<WinningStatisticDto> winningStatistics = resultService.matchedResults();
         WinningStatisticsResponse winningStatisticsResponse = WinningStatisticsResponse.from(winningStatistics);
 
@@ -93,6 +100,7 @@ public class LottoController {
     private void calculateProfitRate() {
         ProfitRateDto profitRateDto = resultService.calculateProfitRate();
         ProfitRateResponse profitRateResponse = ProfitRateResponse.of(profitRateDto);
+
         outputPort.print(profitRateResponse);
     }
 }
