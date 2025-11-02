@@ -42,7 +42,9 @@ public class LottoController {
         execute(this::checkingLottoGames);
         execute(this::registerWinningNumbers);
         execute(this::registerBonusNumber);
-        execute(this::drawLottoGames);
+
+        drawLottoGames();
+
     }
 
     private void execute(ExecutableTask task) {
