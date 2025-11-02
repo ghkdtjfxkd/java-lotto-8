@@ -36,7 +36,7 @@ class ScoreBoard {
 
     Map<LottoRank, Integer> matchedScores() {
         Map<LottoRank, Integer> completeScores = new EnumMap<>(LottoRank.class);
-        
+
         LottoRank.getWinningRanks()
                 .forEach(winningRank -> putScore(winningRank, completeScores));
 

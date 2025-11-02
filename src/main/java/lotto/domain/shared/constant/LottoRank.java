@@ -51,7 +51,7 @@ public enum LottoRank {
         return Arrays.stream(values())
                 .filter(rank -> rank != MISS)
                 .sorted(Comparator.reverseOrder())
-                .toList(); // 또는 순서를 위해 List.of(FIFTH, FOURTH, ...)
+                .toList();
     }
 
     public int matchCount() {

@@ -18,7 +18,8 @@ public class LottoResult {
     }
 
     public List<MatchedScore> scores() {
-        return scoreBoard.matchedScores().entrySet().stream()
+        return scoreBoard.matchedScores().entrySet()
+                .stream()
                 .map(entry -> new MatchedScore(entry.getKey(), entry.getValue()))
                 .toList();
     }

@@ -7,13 +7,11 @@ public class InMemoryPurchaseRepository implements PurchaseRepository {
 
     private Purchase purchase;
 
-    // Command
     @Override
     public void save(Purchase purchase) {
         this.purchase = purchase;
     }
 
-    // Query
     @Override
     public int amount() {
         return purchase.amount();

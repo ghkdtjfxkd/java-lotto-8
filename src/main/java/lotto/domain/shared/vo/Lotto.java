@@ -33,7 +33,7 @@ public class Lotto {
     }
 
     private void requireUnique(List<Integer> numbers) {
-        if(hasDuplicates(numbers)) {
+        if (hasDuplicates(numbers)) {
             throw new InvalidLottoNumbersException(ErrorType.DUPLICATES_EXIST);
         }
     }

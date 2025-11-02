@@ -10,13 +10,11 @@ public class InMemoryLottoTicketRepository implements LottoTicketRepository {
 
     private LottoTicket lottoTicket;
 
-    // Command
     @Override
     public void save(LottoTicket lottoTicket) {
         this.lottoTicket = lottoTicket;
     }
 
-    // Query (view로 향함)
     @Override
     public List<PurchasedLottoDto> purchasedLottoGames() {
         return lottoTicket.purchasedLottoGames().stream()

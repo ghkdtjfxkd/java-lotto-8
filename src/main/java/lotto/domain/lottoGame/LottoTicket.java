@@ -13,7 +13,7 @@ public class LottoTicket {
     }
 
     public static LottoTicket from(int purchaseQuantity, PickLottoNumbersStrategy strategy) {
-        List<Lotto> lottoGames = Stream.generate(() ->Lotto.picks(strategy))
+        List<Lotto> lottoGames = Stream.generate(() -> Lotto.picks(strategy))
                 .limit(purchaseQuantity)
                 .toList();
 

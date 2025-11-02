@@ -7,7 +7,6 @@ import lotto.application.dto.WinningStatisticDto;
 import lotto.application.service.LottoAnswerService;
 import lotto.application.service.LottoPurchaseService;
 import lotto.application.service.LottoResultService;
-import lotto.application.service.LottoResultServiceImpl;
 import lotto.common.BusinessException;
 import lotto.io.input.LottoGameInputPort;
 import lotto.io.input.dto.BonusNumberRequest;

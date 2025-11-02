@@ -5,7 +5,6 @@ import lotto.application.dto.PurchasedLottoDto;
 
 public record PurchasedLottoGamesResponse(int quantity,
                                           List<List<Integer>> lottoNumbers) {
-
     public static PurchasedLottoGamesResponse from(List<PurchasedLottoDto> lottoGames) {
         int quantity = lottoGames.size();
 

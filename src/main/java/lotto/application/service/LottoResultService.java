@@ -7,5 +7,6 @@ import lotto.application.dto.WinningStatisticDto;
 public interface LottoResultService {
 
     List<WinningStatisticDto> matchedResults();
+
     ProfitRateDto calculateProfitRate();
 }
