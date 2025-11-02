@@ -8,6 +8,7 @@ import lotto.domain.shared.vo.LottoAnswer;
 
 public class WinningCondition {
 
+    private static final int PRESERVE_EMPTY_TOKENS = -1;
     private static final String ANY_LOTTO_RANGE_NUMBERS = "1"; // 1 ~ 45 사이의 숫자 문자열 아무거나
     private static final String DELIMITER = ",";
 
@@ -42,7 +43,7 @@ public class WinningCondition {
     }
 
     private static Stream<LottoNumberToken> streamOf(String winningNumbersInput) {
-        return Arrays.stream(winningNumbersInput.split(DELIMITER))
+        return Arrays.stream(winningNumbersInput.split(DELIMITER, PRESERVE_EMPTY_TOKENS))
                 .peek(WinningCondition::requireNumeric)
                 .map(LottoNumberToken::from);
     }
