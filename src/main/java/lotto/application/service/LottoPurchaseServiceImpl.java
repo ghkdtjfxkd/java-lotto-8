@@ -12,6 +12,7 @@ public class LottoPurchaseServiceImpl implements LottoPurchaseService {
 
     private final PurchaseRepository purchaseRepository;
     private final LottoTicketRepository lottoTicketRepository;
+
     private final PickLottoNumbersStrategy pickLottoNumbersStrategy;
 
     public LottoPurchaseServiceImpl(PurchaseRepository purchaseRepository,

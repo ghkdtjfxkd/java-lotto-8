@@ -7,19 +7,19 @@ import lotto.domain.shared.vo.Lotto;
 
 public class WinningCondition {
 
-    private static final String ANY_LOTTO_RANGE_NUMBERS = "1";
+    private static final String ANY_LOTTO_RANGE_NUMBERS = "1"; // 1 ~ 45 사이의 숫자 문자열 아무거나
     private static final String DELIMITER = ",";
 
-    private final Lotto winningNumbers;
+    private final Lotto winningLotto;
     private final LottoNumberToken bonus;
 
-    private WinningCondition(Lotto winningNumbers) {
-        this.winningNumbers = winningNumbers;
+    private WinningCondition(Lotto winningLotto) {
+        this.winningLotto = winningLotto;
         this.bonus = LottoNumberToken.from(ANY_LOTTO_RANGE_NUMBERS);
     }
 
-    private WinningCondition(Lotto winningNumbers, LottoNumberToken bonus) {
-        this.winningNumbers = winningNumbers;
+    private WinningCondition(Lotto winningLotto, LottoNumberToken bonus) {
+        this.winningLotto = winningLotto;
         this.bonus = bonus;
     }
 
@@ -37,7 +37,7 @@ public class WinningCondition {
     }
 
     private static List<Integer> parseToNumberTokens(Stream<LottoNumberToken> numbersInputStream) {
-        return numbersInputStream.map(LottoNumberToken::value)
+        return numbersInputStream.map(LottoNumberToken::number)
                 .toList();
     }
 
@@ -62,21 +62,21 @@ public class WinningCondition {
     public WinningCondition withBonus(String bonusNumbersInput) {
         requireNonBlank(bonusNumbersInput);
         requireUnique(bonusNumbersInput);
-        return new WinningCondition(this.winningNumbers, LottoNumberToken.from(bonusNumbersInput));
+        return new WinningCondition(this.winningLotto, LottoNumberToken.from(bonusNumbersInput));
     }
 
     private void requireUnique(String bonusNumbersInput) {
-        LottoNumberToken number = LottoNumberToken.from(bonusNumbersInput);
-        if(winningNumbers.isContained(number.value())) {
+        LottoNumberToken bonus = LottoNumberToken.from(bonusNumbersInput);
+        if (winningLotto.numbers().contains(bonus.number())) {
             throw new InvalidMatchConditionException(ErrorType.DUPLICATES_EXIST);
         }
     }
 
-    public int matchedCount(Lotto lottoGame) {
-        return winningNumbers.matchedCount(lottoGame.numbers());
+    public List<Integer> winningNumbers() {
+        return winningLotto.numbers();
     }
 
-    public boolean bonusIsMatched(Lotto lottoGame) {
-        return lottoGame.isContained(bonus.value());
+    public int bonusNumber() {
+        return bonus.number();
     }
 }
