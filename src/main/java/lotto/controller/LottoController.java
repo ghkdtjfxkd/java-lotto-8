@@ -6,7 +6,8 @@ import lotto.application.dto.PurchasedLottoDto;
 import lotto.application.dto.WinningStatisticDto;
 import lotto.application.service.answer.LottoAnswerService;
 import lotto.application.service.purchase.LottoPurchaseService;
-import lotto.application.service.result.LottoResultService;
+import lotto.application.service.result.LottoResultQueryService;
+import lotto.application.service.result.LottoResultCommandService;
 import lotto.common.BusinessException;
 import lotto.io.input.LottoGameInputPort;
 import lotto.io.input.dto.BonusNumberRequest;
@@ -24,18 +25,20 @@ public class LottoController {
 
     private final LottoPurchaseService purchaseService;
     private final LottoAnswerService answerService;
-    private final LottoResultService resultService;
+    private final LottoResultCommandService resultService;
+    private final LottoResultQueryService resultQueryService;
 
     public LottoController(LottoGameInputPort inputPort,
                            LottoGameOutputPort outputPort,
                            LottoPurchaseService purchaseService,
                            LottoAnswerService answerService,
-                           LottoResultService resultService) {
+                           LottoResultCommandService resultService, LottoResultQueryService resultQueryService) {
         this.inputPort = inputPort;
         this.outputPort = outputPort;
         this.purchaseService = purchaseService;
         this.answerService = answerService;
         this.resultService = resultService;
+        this.resultQueryService = resultQueryService;
     }
 
     public void run() {
@@ -51,6 +54,8 @@ public class LottoController {
     }
 
     private void resultPhase() {
+        registerLottoResult();
+
         displayWinningStatistics();
         calculateProfitRate();
     }
@@ -90,15 +95,19 @@ public class LottoController {
         answerService.registerBonusNumber(request.rawBonusNumberInput());
     }
 
+    private void registerLottoResult() {
+        resultService.registerLottoResult();
+    }
+
     private void displayWinningStatistics() {
-        List<WinningStatisticDto> winningStatistics = resultService.matchedResults();
+        List<WinningStatisticDto> winningStatistics = resultQueryService.matchedResults();
         WinningStatisticsResponse winningStatisticsResponse = WinningStatisticsResponse.from(winningStatistics);
 
         outputPort.print(winningStatisticsResponse);
     }
 
     private void calculateProfitRate() {
-        ProfitRateDto profitRateDto = resultService.calculateProfitRate();
+        ProfitRateDto profitRateDto = resultQueryService.calculateProfitRate();
         ProfitRateResponse profitRateResponse = ProfitRateResponse.of(profitRateDto);
 
         outputPort.print(profitRateResponse);
