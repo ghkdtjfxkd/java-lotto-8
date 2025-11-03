@@ -12,11 +12,10 @@ class PurchaseQuantity {
     }
 
     static PurchaseQuantity from(int money) {
-        requireDivisibleByUnit(money);
         return new PurchaseQuantity(money);
     }
 
-    private static void requireDivisibleByUnit(int money) {
+    private void requireDivisibleByUnit(int money) {
         if (money % LOTTO_PRICE != 0) {
             throw new InvalidPurchaseException(ErrorType.NOT_DIVISIBLE_BY_UNIT);
         }
