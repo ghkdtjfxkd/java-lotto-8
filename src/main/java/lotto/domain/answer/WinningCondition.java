@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import lotto.domain.shared.vo.Lotto;
 import lotto.domain.shared.vo.LottoAnswer;
+import lotto.util.InputChecks;
 
 public class WinningCondition {
 
@@ -32,7 +33,7 @@ public class WinningCondition {
     }
 
     private static void requireNonBlank(String winningNumbersInput) {
-        if (winningNumbersInput == null || winningNumbersInput.isBlank()) {
+        if (InputChecks.isBlank(winningNumbersInput)) {
             throw new InvalidWinningConditionException(ErrorType.BLANK);
         }
     }
@@ -49,13 +50,7 @@ public class WinningCondition {
     }
 
     private static void requireNumeric(String input) {
-        for (char token : input.toCharArray()) {
-            requireDigit(token);
-        }
-    }
-
-    private static void requireDigit(char token) {
-        if (!Character.isDigit(token)) {
+        if(InputChecks.isNotNumeric(input)) {
             throw new InvalidWinningConditionException(ErrorType.NOT_DIGITS_OR_DELIMITER);
         }
     }

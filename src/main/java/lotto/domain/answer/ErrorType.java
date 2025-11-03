@@ -11,7 +11,8 @@ enum ErrorType {
     OUT_OF_INTEGER("int 범위를 넘어가는 숫자가 입력됐습니다."),
     OUT_OF_LOTTO_NUMBER_RANGE("로또 번호 범위 (1 ~ 45)를 벗어나는 숫자가 입력됐습니다."),
     WHITE_SPACES_EXIST("입력한 숫자에 공백이 포함되어 있습니다."),
-    NOT_DIGITS("로또 번호 입력은 숫자만 허용됩니다.");
+    NOT_DIGITS("로또 번호 입력은 숫자만 허용됩니다."),
+    REDUNDANT_LEADING_ZERO("로또 번호 입력에 불필요한 앞자리 0이 포함되어 있습니다.");
 
     private static final String ERROR_PREFIX = "[ERROR]: ";
 
