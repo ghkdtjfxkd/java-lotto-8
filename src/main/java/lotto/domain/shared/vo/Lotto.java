@@ -23,11 +23,11 @@ public class Lotto {
     private void validate(List<Integer> numbers) {
         requireValidNumberCount(numbers);
         requireUnique(numbers);
-        requireLottoRangeNumbers(numbers);
+        requireInLottoRange(numbers);
     }
 
     private void requireValidNumberCount(List<Integer> numbers) {
-        if (numbers.size() != LottoRules.LOTTO_BALL_COUNT.value()) {
+        if (LottoRules.isInvalidCount(numbers.size())) {
             throw new InvalidLottoNumbersException(ErrorType.INVALID_NUMBER_COUNT);
         }
     }
@@ -42,18 +42,14 @@ public class Lotto {
         return numbers.size() != numbers.stream().distinct().count();
     }
 
-    private void requireLottoRangeNumbers(List<Integer> numbers) {
+    private void requireInLottoRange(List<Integer> numbers) {
         numbers.forEach(this::requireInLottoRange);
     }
 
     private void requireInLottoRange(int number) {
-        if (!inLottoRange(number)) {
+        if (LottoRules.isOutOfRange(number)) {
             throw new InvalidLottoNumbersException(ErrorType.OUT_OF_LOTTO_NUMBER_RANGE);
         }
-    }
-
-    private boolean inLottoRange(int number) {
-        return LottoRules.MIN_NUMBER.value() <= number && number <= LottoRules.MAX_NUMBER.value();
     }
 
     public List<Integer> numbers() {

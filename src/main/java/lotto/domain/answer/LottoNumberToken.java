@@ -1,6 +1,7 @@
 package lotto.domain.answer;
 
 import lotto.domain.shared.constant.LottoRules;
+import lotto.util.InputChecks;
 
 class LottoNumberToken {
 
@@ -12,26 +13,31 @@ class LottoNumberToken {
     }
 
     static LottoNumberToken from(String numberInput) {
-        requireNoWhitespace(numberInput);
-        requireNumeric(numberInput);
+        requireValid(numberInput);
         return new LottoNumberToken(parseToInt(numberInput));
     }
 
+    private static void requireValid(String numberInput) {
+        requireNoWhitespace(numberInput);
+        requireNumeric(numberInput);
+        requireNoRedundantLeadingZero(numberInput);
+    }
+
     private static void requireNoWhitespace(String numberInput) {
-        if (numberInput.isBlank()) {
+        if (InputChecks.isBlank(numberInput)) {
             throw new InvalidWinningConditionException(ErrorType.WHITE_SPACES_EXIST);
         }
     }
 
     private static void requireNumeric(String input) {
-        for (char token : input.toCharArray()) {
-            requireDigit(token);
+        if(InputChecks.isNotNumeric(input)) {
+            throw new InvalidWinningConditionException(ErrorType.NOT_DIGITS);
         }
     }
 
-    private static void requireDigit(char token) {
-        if (!Character.isDigit(token)) {
-            throw new InvalidWinningConditionException(ErrorType.NOT_DIGITS);
+    private static void requireNoRedundantLeadingZero(String input) {
+        if(InputChecks.hasRedundantLeadingZero(input)) {
+            throw new InvalidWinningConditionException(ErrorType.REDUNDANT_LEADING_ZERO);
         }
     }
 
@@ -44,13 +50,9 @@ class LottoNumberToken {
     }
 
     private void requireInLottoRange(int number) {
-        if (!inLottoRange(number)) {
+        if (LottoRules.isOutOfRange(number)) {
             throw new InvalidWinningConditionException(ErrorType.OUT_OF_LOTTO_NUMBER_RANGE);
         }
-    }
-
-    private boolean inLottoRange(int number) {
-        return LottoRules.MIN_NUMBER.value() <= number && number <= LottoRules.MAX_NUMBER.value();
     }
 
     int number() {

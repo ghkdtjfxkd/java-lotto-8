@@ -1,5 +1,7 @@
 package lotto.domain.purchase;
 
+import lotto.util.InputChecks;
+
 public class Purchase {
 
     private final Money money;
@@ -16,23 +18,24 @@ public class Purchase {
     private void requireValid(String input) {
         requireNonBlank(input);
         requireNumeric(input);
+        requireNoRedundantLeadingZero(input);
     }
 
     private void requireNonBlank(String input) {
-        if (input == null || input.isBlank()) {
+        if (InputChecks.isBlank(input)) {
             throw new InvalidPurchaseException(ErrorType.BLANK);
         }
     }
 
     private void requireNumeric(String input) {
-        for (char token : input.toCharArray()) {
-            requireDigit(token);
+        if(InputChecks.isNotNumeric(input)) {
+            throw new InvalidPurchaseException(ErrorType.NOT_DIGIT);
         }
     }
 
-    private void requireDigit(char token) {
-        if (!Character.isDigit(token)) {
-            throw new InvalidPurchaseException(ErrorType.NOT_DIGIT);
+    private void requireNoRedundantLeadingZero(String input) {
+        if(InputChecks.hasRedundantLeadingZero(input)) {
+            throw new InvalidPurchaseException(ErrorType.REDUNDANT_LEADING_ZERO);
         }
     }
 

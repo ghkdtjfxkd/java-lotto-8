@@ -34,11 +34,21 @@ class LottoNumberTokenTest {
     @DisplayName("로또 범위를 벗어나는 숫자 입력 시, 예외 메시지 테스트")
     @ParameterizedTest(name = "[{index}] 숫자 입력: [{0}]")
     @MethodSource("provideOutOfLottoRangeInputs")
-    void non_positive_money_exception_message_test(String input) {
+    void out_of_lotto_range_number_exception_message_test(String input) {
         assertThatThrownBy(() -> LottoNumberToken.from(input))
                 .isInstanceOf(IllegalArgumentException.class)
                 .isInstanceOf(InvalidWinningConditionException.class)
                 .hasMessage(ErrorType.OUT_OF_LOTTO_NUMBER_RANGE.description());
+    }
+
+    @DisplayName("로또 번호에 불필요한 0으로 시작하는 숫자 입력 시, 예외 메시지 테스트")
+    @ParameterizedTest(name = "[{index}] 숫자 입력: [{0}]")
+    @MethodSource("provideRedundantLeadingZeroInputs")
+    void leading_zero_exception_message_test(String input) {
+        assertThatThrownBy(() -> LottoNumberToken.from(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InvalidWinningConditionException.class)
+                .hasMessage(ErrorType.REDUNDANT_LEADING_ZERO.description());
     }
 
     private static Stream<Arguments> provideOnlyBlanksInputs() {
@@ -51,5 +61,9 @@ class LottoNumberTokenTest {
 
     private static Stream<String> provideOutOfLottoRangeInputs() {
         return TestFixtures.provideOutOfLottoRangeInputs();
+    }
+
+    private static Stream<String> provideRedundantLeadingZeroInputs() {
+        return TestFixtures.provideRedundantLeadingZeroInputs();
     }
 }

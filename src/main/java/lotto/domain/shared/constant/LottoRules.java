@@ -16,4 +16,12 @@ public enum LottoRules {
     public int value() {
         return value;
     }
+
+    public static boolean isOutOfRange(int number) {
+        return !(MIN_NUMBER.value() <= number && number <= MAX_NUMBER.value());
+    }
+
+    public static boolean isInvalidCount(int count) {
+        return count != LOTTO_BALL_COUNT.value();
+    }
 }

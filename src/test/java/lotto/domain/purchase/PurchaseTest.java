@@ -1,6 +1,7 @@
 package lotto.domain.purchase;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.stream.Stream;
@@ -46,11 +47,25 @@ class PurchaseTest {
                 .hasMessage(ErrorType.NOT_DIGIT.description());
     }
 
+    @DisplayName("구매 금액에 불필요한 0으로 시작하는 숫자 입력 시, 예외 메시지 테스트")
+    @ParameterizedTest(name = "[{index}] 숫자 입력: [{0}]")
+    @MethodSource("provideRedundantLeadingZeroInputs")
+    void leading_zero_exception_message_test(String input) {
+        assertThatThrownBy(() -> Purchase.from(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InvalidPurchaseException.class)
+                .hasMessage(ErrorType.REDUNDANT_LEADING_ZERO.description());
+    }
+
     private static Stream<Arguments> provideOnlyBlanksInput() {
         return TestFixtures.provideOnlyBlanksInput();
     }
 
     private static Stream<Arguments> provideContainedNonDigitsInput() {
         return TestFixtures.provideContainedNonDigitsInput();
+    }
+
+    private static Stream<String> provideRedundantLeadingZeroInputs() {
+        return TestFixtures.provideRedundantLeadingZeroInputs();
     }
 }
