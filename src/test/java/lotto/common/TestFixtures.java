@@ -36,4 +36,12 @@ public final class TestFixtures {
                 "46"
         );
     }
+
+    public static Stream<String> provideRedundantLeadingZeroInputs() {
+        return Stream.of(
+                "01",
+                "0001",
+                "001000"
+        );
+    }
 }
