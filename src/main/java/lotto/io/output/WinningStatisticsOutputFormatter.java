@@ -34,13 +34,13 @@ class WinningStatisticsOutputFormatter {
 
     private static String matchCountFormat(int matchCount, boolean bonusBallMatch) {
         if (bonusBallMatch) {
-            return java.lang.String.format("%d개 일치, 보너스 볼 일치", matchCount);
+            return String.format("%d개 일치, 보너스 볼 일치", matchCount);
         }
-        return java.lang.String.format("%d개 일치", matchCount);
+        return String.format("%d개 일치", matchCount);
     }
 
     private static String moneyFormat(long prizeMoney) {
-        return java.lang.String.format("(%,d원)", prizeMoney);
+        return String.format("(%,d원)", prizeMoney);
     }
 
     private static String winningCountFormat(int winningCount) {
