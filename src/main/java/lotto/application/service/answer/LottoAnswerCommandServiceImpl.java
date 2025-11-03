@@ -3,11 +3,11 @@ package lotto.application.service.answer;
 import lotto.domain.answer.WinningCondition;
 import lotto.domain.answer.LottoAnswerRepository;
 
-public class LottoAnswerServiceImpl implements LottoAnswerService {
+public class LottoAnswerCommandServiceImpl implements LottoAnswerCommandService {
 
     private final LottoAnswerRepository lottoAnswerRepository;
 
-    public LottoAnswerServiceImpl(LottoAnswerRepository lottoAnswerRepository) {
+    public LottoAnswerCommandServiceImpl(LottoAnswerRepository lottoAnswerRepository) {
         this.lottoAnswerRepository = lottoAnswerRepository;
     }
 

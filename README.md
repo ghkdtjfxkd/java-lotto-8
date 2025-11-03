@@ -94,7 +94,10 @@
 ### 🛠️ 리팩토링
 - [x] 전반적인 코드 포맷 정리
 - [x] 네이밍 정리
-- [ ] dto와 공용 불변 VO 파악 후 정리
+- [x] DTO와 공용 불변 VO 파악 후 정리
+  - 개인적인 기준
+    - 계층 간 전송 시에만 DTO(dto, request, response) 로 명명
+    - 도메인 간은 비즈니스 로직 유무와 무관하게 VO로 취급
 - [x] 설정 클래스 만들기
 - [x] 패키지 구조 점검하기
 - [x] 책임 조정
@@ -103,6 +106,7 @@
   - [x] 입력이 빈 문자열인지(`WinningCondition`, `LottoNumberToken` , `Purchase`)
   - [x] 입력이 숫자로만 구성되어 있는지(`LottoNumberToken`, `Purchase`)
   - [x] 입력된 숫자가 로또 번호 범위 안쪽인지 (`Lotto`, `LottoNumberToken`)
+- [x] 서비스 레이어에 CQRS 도입
 
 ---
 

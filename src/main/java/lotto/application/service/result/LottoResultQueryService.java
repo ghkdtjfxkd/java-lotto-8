@@ -4,7 +4,7 @@ import java.util.List;
 import lotto.application.dto.ProfitRateDto;
 import lotto.application.dto.WinningStatisticDto;
 
-public interface LottoResultService {
+public interface LottoResultQueryService {
 
     List<WinningStatisticDto> matchedResults();
 

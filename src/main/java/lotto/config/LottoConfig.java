@@ -1,17 +1,23 @@
 package lotto.config;
 
-import lotto.application.service.answer.LottoAnswerService;
-import lotto.application.service.answer.LottoAnswerServiceImpl;
-import lotto.application.service.purchase.LottoPurchaseService;
-import lotto.application.service.purchase.LottoPurchaseServiceImpl;
-import lotto.application.service.result.LottoResultService;
-import lotto.application.service.result.LottoResultServiceImpl;
+import lotto.application.service.answer.LottoAnswerCommandService;
+import lotto.application.service.answer.LottoAnswerCommandServiceImpl;
+import lotto.application.service.purchase.LottoPurchaseQueryService;
+import lotto.application.service.purchase.LottoPurchaseQueryServiceImpl;
+import lotto.application.service.purchase.LottoPurchaseCommandService;
+import lotto.application.service.purchase.LottoPurchaseCommandServiceImpl;
+import lotto.application.service.result.LottoResultQueryService;
+import lotto.application.service.result.LottoResultQueryServiceImpl;
+import lotto.application.service.result.LottoResultCommandService;
+import lotto.application.service.result.LottoResultCommandServiceImpl;
 import lotto.controller.LottoController;
 import lotto.domain.answer.LottoAnswerRepository;
 import lotto.domain.lottoGame.LottoTicketRepository;
 import lotto.domain.lottoGame.PickLottoNumbersStrategy;
 import lotto.domain.purchase.PurchaseRepository;
+import lotto.domain.result.LottoResultRepository;
 import lotto.infrastructure.repository.InMemoryLottoAnswerRepository;
+import lotto.infrastructure.repository.InMemoryLottoResultRepository;
 import lotto.infrastructure.repository.InMemoryLottoTicketRepository;
 import lotto.infrastructure.repository.InMemoryPurchaseRepository;
 import lotto.infrastructure.strategy.QuickPicksStrategy;
@@ -26,13 +32,16 @@ public class LottoConfig {
         PurchaseRepository purchaseRepository = new InMemoryPurchaseRepository();
         LottoTicketRepository lottoTicketRepository = new InMemoryLottoTicketRepository();
         LottoAnswerRepository lottoAnswerRepository = new InMemoryLottoAnswerRepository();
+        LottoResultRepository lottoResultRepository = new InMemoryLottoResultRepository();
 
         return new LottoController(
                 createInputPort(),
                 createOutputPort(),
-                createPurchaseService(purchaseRepository, lottoTicketRepository),
-                createAnswerService(lottoAnswerRepository),
-                createResultService(purchaseRepository, lottoTicketRepository, lottoAnswerRepository)
+                createPurchaseCommandService(purchaseRepository, lottoTicketRepository),
+                createPurchaseQueryService(lottoTicketRepository),
+                createAnswerCommandService(lottoAnswerRepository),
+                createResultCommandService(lottoTicketRepository, lottoAnswerRepository, lottoResultRepository),
+                createResultQueryService(purchaseRepository, lottoResultRepository)
         );
     }
 
@@ -48,32 +57,49 @@ public class LottoConfig {
         return new QuickPicksStrategy();
     }
 
-    private static LottoPurchaseService createPurchaseService(
+    private static LottoPurchaseCommandService createPurchaseCommandService(
             PurchaseRepository purchaseRepository,
             LottoTicketRepository lottoTicketRepository) {
 
-        return new LottoPurchaseServiceImpl(
+        return new LottoPurchaseCommandServiceImpl(
                 purchaseRepository,
                 lottoTicketRepository,
                 createPickStrategy()
         );
     }
 
-    private static LottoAnswerService createAnswerService(
-            LottoAnswerRepository lottoAnswerRepository) {
+    private static LottoPurchaseQueryService createPurchaseQueryService(
+            LottoTicketRepository lottoTicketRepository) {
 
-        return new LottoAnswerServiceImpl(lottoAnswerRepository);
+        return new LottoPurchaseQueryServiceImpl(lottoTicketRepository);
     }
 
-    private static LottoResultService createResultService(
-            PurchaseRepository purchaseRepository,
-            LottoTicketRepository lottoTicketRepository,
+    private static LottoAnswerCommandService createAnswerCommandService(
             LottoAnswerRepository lottoAnswerRepository) {
 
-        return new LottoResultServiceImpl(
-                purchaseRepository,
+        return new LottoAnswerCommandServiceImpl(
+                lottoAnswerRepository);
+    }
+
+    private static LottoResultCommandService createResultCommandService(
+            LottoTicketRepository lottoTicketRepository,
+            LottoAnswerRepository lottoAnswerRepository,
+            LottoResultRepository lottoResultRepository) {
+
+        return new LottoResultCommandServiceImpl(
                 lottoTicketRepository,
-                lottoAnswerRepository
+                lottoAnswerRepository,
+                lottoResultRepository
+        );
+    }
+
+    private static LottoResultQueryService createResultQueryService(
+            PurchaseRepository purchaseRepository,
+            LottoResultRepository lottoResultRepository) {
+
+        return new LottoResultQueryServiceImpl(
+                purchaseRepository,
+                lottoResultRepository
         );
     }
 }
