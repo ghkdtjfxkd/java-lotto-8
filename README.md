@@ -103,7 +103,8 @@
   - [x] 입력이 빈 문자열인지(`WinningCondition`, `LottoNumberToken` , `Purchase`)
   - [x] 입력이 숫자로만 구성되어 있는지(`LottoNumberToken`, `Purchase`)
   - [x] 입력된 숫자가 로또 번호 범위 안쪽인지 (`Lotto`, `LottoNumberToken`)
-- [ ] cqrs 분리
+- [x] 서비스 레이어에 CQRS 도입
+
 ---
 
 ### 💭 기타

@@ -1,6 +1,6 @@
 package lotto.application.service.answer;
 
-public interface LottoAnswerService {
+public interface LottoAnswerCommandService {
 
     void registerWinningNumbers(String winningNumbersInput);
 

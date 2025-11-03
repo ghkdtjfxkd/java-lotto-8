@@ -4,8 +4,9 @@ import java.util.List;
 import lotto.application.dto.ProfitRateDto;
 import lotto.application.dto.PurchasedLottoDto;
 import lotto.application.dto.WinningStatisticDto;
-import lotto.application.service.answer.LottoAnswerService;
-import lotto.application.service.purchase.LottoPurchaseService;
+import lotto.application.service.answer.LottoAnswerCommandService;
+import lotto.application.service.purchase.LottoPurchaseQueryService;
+import lotto.application.service.purchase.LottoPurchaseCommandService;
 import lotto.application.service.result.LottoResultQueryService;
 import lotto.application.service.result.LottoResultCommandService;
 import lotto.common.BusinessException;
@@ -23,21 +24,25 @@ public class LottoController {
     private final LottoGameInputPort inputPort;
     private final LottoGameOutputPort outputPort;
 
-    private final LottoPurchaseService purchaseService;
-    private final LottoAnswerService answerService;
-    private final LottoResultCommandService resultService;
+    private final LottoPurchaseCommandService purchaseCommandService;
+    private final LottoPurchaseQueryService purchaseQueryService;
+    private final LottoAnswerCommandService answerCommandService;
+    private final LottoResultCommandService resultCommandService;
     private final LottoResultQueryService resultQueryService;
 
     public LottoController(LottoGameInputPort inputPort,
                            LottoGameOutputPort outputPort,
-                           LottoPurchaseService purchaseService,
-                           LottoAnswerService answerService,
-                           LottoResultCommandService resultService, LottoResultQueryService resultQueryService) {
+                           LottoPurchaseCommandService purchaseCommandService,
+                           LottoPurchaseQueryService purchaseQueryService,
+                           LottoAnswerCommandService answerCommandService,
+                           LottoResultCommandService resultCommandService,
+                           LottoResultQueryService resultQueryService) {
         this.inputPort = inputPort;
         this.outputPort = outputPort;
-        this.purchaseService = purchaseService;
-        this.answerService = answerService;
-        this.resultService = resultService;
+        this.purchaseCommandService = purchaseCommandService;
+        this.purchaseQueryService = purchaseQueryService;
+        this.answerCommandService = answerCommandService;
+        this.resultCommandService = resultCommandService;
         this.resultQueryService = resultQueryService;
     }
 
@@ -47,7 +52,7 @@ public class LottoController {
     }
 
     private void setupPhase() {
-        execute(this::purchaseLotto);
+        execute(this::purchaseLottoTicket);
         execute(this::displayPurchasedTickets);
         execute(this::registerWinningNumbers);
         execute(this::registerBonusNumber);
@@ -55,9 +60,8 @@ public class LottoController {
 
     private void resultPhase() {
         registerLottoResult();
-
         displayWinningStatistics();
-        calculateProfitRate();
+        displayProfitRate();
     }
 
     private void execute(ExecutableTask task) {
@@ -73,13 +77,13 @@ public class LottoController {
         }
     }
 
-    private void purchaseLotto() {
+    private void purchaseLottoTicket() {
         PurchaseLottoRequest request = inputPort.purchaseMoneyInput();
-        purchaseService.purchaseLottoTicket(request.rawMoneyInput());
+        purchaseCommandService.purchaseLottoTicket(request.rawMoneyInput());
     }
 
     private void displayPurchasedTickets() {
-        List<PurchasedLottoDto> lottoGames = purchaseService.LottoGames();
+        List<PurchasedLottoDto> lottoGames = purchaseQueryService.LottoGames();
         PurchasedLottoGamesResponse purchasedResponse = PurchasedLottoGamesResponse.from(lottoGames);
 
         outputPort.print(purchasedResponse);
@@ -87,16 +91,16 @@ public class LottoController {
 
     private void registerWinningNumbers() {
         WinningNumbersRequest request = inputPort.winningNumbersInput();
-        answerService.registerWinningNumbers(request.rawWinningNumbersInput());
+        answerCommandService.registerWinningNumbers(request.rawWinningNumbersInput());
     }
 
     private void registerBonusNumber() {
         BonusNumberRequest request = inputPort.bonusNumberInput();
-        answerService.registerBonusNumber(request.rawBonusNumberInput());
+        answerCommandService.registerBonusNumber(request.rawBonusNumberInput());
     }
 
     private void registerLottoResult() {
-        resultService.registerLottoResult();
+        resultCommandService.registerLottoResult();
     }
 
     private void displayWinningStatistics() {
@@ -106,7 +110,7 @@ public class LottoController {
         outputPort.print(winningStatisticsResponse);
     }
 
-    private void calculateProfitRate() {
+    private void displayProfitRate() {
         ProfitRateDto profitRateDto = resultQueryService.calculateProfitRate();
         ProfitRateResponse profitRateResponse = ProfitRateResponse.of(profitRateDto);
 
