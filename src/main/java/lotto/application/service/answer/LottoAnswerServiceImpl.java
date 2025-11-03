@@ -1,4 +1,4 @@
-package lotto.application.service;
+package lotto.application.service.answer;
 
 import lotto.domain.answer.WinningCondition;
 import lotto.domain.answer.LottoAnswerRepository;

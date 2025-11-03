@@ -1,4 +1,4 @@
-package lotto.application.service;
+package lotto.application.service.purchase;
 
 import java.util.List;
 import lotto.application.dto.PurchasedLottoDto;

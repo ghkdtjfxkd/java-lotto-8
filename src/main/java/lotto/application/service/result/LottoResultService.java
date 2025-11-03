@@ -1,4 +1,4 @@
-package lotto.application.service;
+package lotto.application.service.result;
 
 import java.util.List;
 import lotto.application.dto.ProfitRateDto;

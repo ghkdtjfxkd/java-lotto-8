@@ -1,4 +1,4 @@
-package lotto.application.service;
+package lotto.application.service.answer;
 
 public interface LottoAnswerService {
 

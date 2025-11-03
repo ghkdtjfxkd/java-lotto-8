@@ -1,17 +1,16 @@
 package lotto.config;
 
-import lotto.application.service.LottoAnswerService;
-import lotto.application.service.LottoAnswerServiceImpl;
-import lotto.application.service.LottoPurchaseService;
-import lotto.application.service.LottoPurchaseServiceImpl;
-import lotto.application.service.LottoResultService;
-import lotto.application.service.LottoResultServiceImpl;
+import lotto.application.service.answer.LottoAnswerService;
+import lotto.application.service.answer.LottoAnswerServiceImpl;
+import lotto.application.service.purchase.LottoPurchaseService;
+import lotto.application.service.purchase.LottoPurchaseServiceImpl;
+import lotto.application.service.result.LottoResultService;
+import lotto.application.service.result.LottoResultServiceImpl;
 import lotto.controller.LottoController;
 import lotto.domain.answer.LottoAnswerRepository;
 import lotto.domain.lottoGame.LottoTicketRepository;
 import lotto.domain.lottoGame.PickLottoNumbersStrategy;
 import lotto.domain.purchase.PurchaseRepository;
-import lotto.domain.shared.vo.LottoAnswer;
 import lotto.infrastructure.repository.InMemoryLottoAnswerRepository;
 import lotto.infrastructure.repository.InMemoryLottoTicketRepository;
 import lotto.infrastructure.repository.InMemoryPurchaseRepository;
